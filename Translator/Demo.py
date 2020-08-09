@@ -1,4 +1,5 @@
 from PyQt5.QtWidgets import *
+from PyQt5.QtGui import QIcon
 import sys
 from api.google import GoogleTranslator
 from api.baidu import BaiduTranslator
@@ -14,6 +15,7 @@ class Window(QWidget):
         super(Window, self).__init__()
         # 定义组件
         self.setWindowTitle("翻译器")
+        self.setWindowIcon(QIcon("assests/icon.png"))
         self.setFixedSize(600, 100)
         self.source_label = QLabel("原文")
         self.result_label = QLabel("译文")
@@ -53,7 +55,7 @@ class Window(QWidget):
             try:
                 translated_text = api.get_translation(text)
             except Exception as e:
-                # print(e)  # 查看是什么错误
+                # print(e)
                 translated_text = "翻译接口调用失败"
         else:
             translated_text = "请输入内容后再翻译"
