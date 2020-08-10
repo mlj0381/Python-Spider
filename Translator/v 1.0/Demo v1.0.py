@@ -16,7 +16,7 @@ class Window(QWidget):
         # 定义组件
         self.setWindowTitle("翻译器")
         self.setWindowIcon(QIcon("assests/icon.png"))
-        self.setFixedSize(600, 100)
+        self.setFixedSize(600, 200)
         self.source_label = QLabel("原文")
         self.result_label = QLabel("译文")
         self.source_text = QTextEdit()
