@@ -16,7 +16,7 @@ class MainWindow(QMainWindow, Ui_Form):
         super(MainWindow, self).__init__(parent)
         self.setupUi(self)
         self.setWindowTitle("简易翻译器")
-        self.setWindowIcon(QIcon("assests/icon.png"))
+        self.setWindowIcon(QIcon("assets/icon.png"))
         self.pushButton.clicked.connect(self.translate)
 
     def translate(self):
