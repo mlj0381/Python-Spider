@@ -2,24 +2,24 @@
 
 ## 项目结构
 
-.
-├── README.md
-├── api
-│   ├── __init__.py
-│   └── gw.py
-├── assets
-│   ├── search.png
-│   └── weather.ico
-├── demo.py
-└── ui
-    ├── MainWindow.py
-    ├── MainWindow.ui
-    └── __init__.py
+.  
+├── README.md  
+├── api  
+│   ├── __init__.py  
+│   └── gw.py  
+├── assets  
+│   ├── search.png  
+│   └── weather.ico  
+├── demo.py  
+└── ui  
+    ├── MainWindow.py  
+    ├── MainWindow.ui  
+    └── __init__.py  
 
-`README.md`: 项目描述文件
-`api`: 获取天气信息的接口
-`assets`: 图标
-`demo.py`: 主程序
+`README.md`: 项目描述文件  
+`api`: 获取天气信息的接口  
+`assets`: 图标  
+`demo.py`: 主程序  
 `ui`: qt-designer 界面文件
 
 ## 第三方库依赖
@@ -31,7 +31,7 @@
 
 ## 运行
 
-在终端运行以下命令：
+在终端运行命令：
 
 ```bash
 python demo.py
@@ -40,10 +40,8 @@ python demo.py
 ## 效果
 
 <center>
-<figure>
-<img src="screenshots/s1.png" width="400" />
-<img src="screenshots/s2.png" width="400" />
-</figure>
+<img src="screenshots/s1.png" width="300" />
+<img src="screenshots/s2.png" width="300" />
 </center>
 
 ## 实现过程
