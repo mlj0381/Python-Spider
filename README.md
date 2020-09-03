@@ -14,6 +14,7 @@
 * 中国教育在线高考信息
 * [穷游网景点信息](https://github.com/leishufei/Python-Spider/tree/master/Qiongyou)
 * [《以家人之名》电视剧评论](https://github.com/leishufei/Python-Spider/tree/master/InTheNameOfFamily)
+* [天气查询助手](https://github.com/leishufei/Python-Spider/tree/master/WeatherAssistant)
 
 ## 声明
 
