@@ -39,52 +39,39 @@ class MainDialog(QDialog, Ui_Form):
         city_name = self.textEdit.toPlainText().strip()
         if len(city_name) != 0:
             try:
+                # 判断查询 1 天还是 7 天的天气情况
                 if self.radioButton.isChecked():
+                    # 查询 1 天的天气情况
                     city_ip = gw.get_city_ip(city_name)
                     left_info = gw.get_base_weather(city_ip)
                     right_info = gw.get_additional_weather(city_ip)
                     self.textEdit_2.setText(left_info)
                     self.textEdit_3.setText(right_info)
                     gw.plot_1d_weather(city_ip)
-                    if self.flag:
-                        # 删除已有的浏览器控件
-                        self.browser.deleteLater()
-                        # 重新添加浏览器控件
-                        self.browser = QWebEngineView()
-                        # url = "file:///time-temp-curve.html"
-                        # url = "file://////" + resource_path("time-temp-curve.html").replace("\\", "/")
-                        url = resource_path("time-temp-curve.html").replace("\\", "/")
-                        self.browser.load(QUrl(url))
-                        self.horizontalLayout.addWidget(self.browser)
-                    else:
-                        self.browser = QWebEngineView()
-                        # url = "file:///time-temp-curve.html"
-                        # url = "file://////" + resource_path("time-temp-curve.html").replace("\\", "/")
-                        url = resource_path("time-temp-curve.html").replace("\\", "/")
-                        self.browser.load(QUrl(url))
-                        self.horizontalLayout.addWidget(self.browser)
-                        self.flag = 1
                 else:
+                    # 查询 7 天的天气情况
                     city_ip = gw.get_city_ip(city_name)
                     gw.plot_7d_weather(city_ip)
                     self.textEdit_2.setText("")
                     self.textEdit_3.setText("")
-                    if self.flag:
-                        # 删除已有的浏览器控件
-                        self.browser.deleteLater()
-                        # 重新添加浏览器控件
-                        self.browser = QWebEngineView()
-                        # url = "file://////" + resource_path("time-temp-curve.html").replace("\\", "/")
-                        url = resource_path("time-temp-curve.html").replace("\\", "/")
-                        self.browser.load(QUrl(url))
-                        self.horizontalLayout.addWidget(self.browser)
-                    else:
-                        self.browser = QWebEngineView()
-                        # url = "file://////" + resource_path("time-temp-curve.html").replace("\\", "/")
-                        url = resource_path("time-temp-curve.html").replace("\\", "/")
-                        self.browser.load(QUrl(url))
-                        self.horizontalLayout.addWidget(self.browser)
-                        self.flag = 1
+                # 判断第一次查询
+                # self.flag = 0 表示第一次查询
+                if self.flag:
+                    # 删除已有的浏览器控件
+                    self.browser.deleteLater()
+                    # 重新添加浏览器控件
+                    self.browser = QWebEngineView()
+                    # url = "file://////" + resource_path("time-temp-curve.html").replace("\\", "/")
+                    url = resource_path("time-temp-curve.html").replace("\\", "/")
+                    self.browser.load(QUrl(url))
+                    self.horizontalLayout.addWidget(self.browser)
+                else:
+                    self.browser = QWebEngineView()
+                    # url = "file://////" + resource_path("time-temp-curve.html").replace("\\", "/")
+                    url = resource_path("time-temp-curve.html").replace("\\", "/")
+                    self.browser.load(QUrl(url))
+                    self.horizontalLayout.addWidget(self.browser)
+                    self.flag = 1
             except:
                 self.textEdit_2.setText('查询失败！\n\n请检查城市名输入是否正确')
                 self.textEdit_3.setText('')
