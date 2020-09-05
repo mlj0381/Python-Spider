@@ -77,7 +77,7 @@ cityname 是城市的名称，callback 不知其具体意义，_ 一看就知道
 ```python
 headers = {
   	"User-agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/84.0.4147.125 Safari/537.36 Edg/84.0.522.59",
-    "Referer": "http://www.weather.com.cn/weather1d/101271201.shtml"
+        "Referer": "http://www.weather.com.cn/weather1d/101271201.shtml"
 }
 city_name = "成都"
 timestamp = int(time.time() * 1000)
@@ -99,7 +99,7 @@ print(city_ip)
 
 ![s8](screenshots/s8.png)
 
-该请求的请求 URL 为：[http://d1.weather.com.cn/sk_2d/101270101.html?_=1598588972022](http://d1.weather.com.cn/sk_2d/101270101.html?_=1598588972022，之前获取到的城市 ip 在这同样适用。写一段代码来获取这个数据：
+该请求的请求 URL 为：[http://d1.weather.com.cn/sk_2d/101270101.html?_=1598588972022](http://d1.weather.com.cn/sk_2d/101270101.html?_=1598588972022)，之前获取到的城市 ip 在这同样适用。写一段代码来获取这个数据：
 
 ```python
 cip = "101270101"
@@ -181,12 +181,12 @@ data = json_["1d"]  # 获取 1 天的数据
 time_list = []
 temp_list = []
 for i in range(len(data)):
-  time_ = data[i].split(",")[0]
-  temp = data[i].split(",")[3]
-  time_list.append(time_)
-  temp_list.append(temp)
-  time_list = [re.findall("\d+", i)[0] + "-" + re.findall("\d+", i)[1] for i in time_list]
-  temp_list = [int(i.strip("℃")) for i in temp_list]
+      time_ = data[i].split(",")[0]
+      temp = data[i].split(",")[3]
+      time_list.append(time_)
+      temp_list.append(temp)
+      time_list = [re.findall("\d+", i)[0] + "-" + re.findall("\d+", i)[1] for i in time_list]
+      temp_list = [int(i.strip("℃")) for i in temp_list]
 ```
 
 至此，页面上主要的数据就获取完了，接下来将其输出就行了。
