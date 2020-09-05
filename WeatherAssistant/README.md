@@ -5,29 +5,29 @@
 .  
 ├── README.md  
 ├── api  
-│   ├── __init__.py  
-│   └── gw.py  
 ├── assets  
-│   ├── search.png  
-│   └── weather.ico  
-├── demo.py  
-└── ui  
-    ├── MainWindow.py  
-    ├── MainWindow.ui  
-    └── __init__.py  
+├── demo.py
+├── screenshots  
+├── ui  
+└── v2.0  
 
 `README.md`: 项目描述文件  
 `api`: 获取天气信息的接口  
 `assets`: 图标  
+`screenshots`: 截图文件   
 `demo.py`: 主程序  
-`ui`: qt-designer 界面文件
+`ui`: qt-designer  界面文件以及对应的 python 代码  
+`v2.0`: 第二版程序
 
 ## 第三方库依赖
 
-`requests`
-`BeautifulSoup`
-`matplotlib`
-`PyQt5`
+`requests`  
+`BeautifulSoup`  
+`matplotlib`  
+`PyQt5`  
+2020/09/05 更新：  
+删除 ~~`matplotlib`~~  
+新增 `pyecharts`
 
 ## 运行
 
@@ -39,11 +39,18 @@ python demo.py
 
 ## 效果
 
+原效果：
 <center>
 <img src="screenshots/s1.png" width="300" />
 <img src="screenshots/s2.png" width="300" />
 </center>
 
+2020/09/05 更新后：
+
+<center>
+<img src="screenshots/s10.png" width="300" />
+<img src="screenshots/s11.png" width="300" />
+</center>
 ## 实现过程
 
 爬取的网址：[中国天气网]( http://www.weather.com.cn/ )，如下图所示。
@@ -190,9 +197,58 @@ for i in range(len(data)):
 ```
 
 至此，页面上主要的数据就获取完了，接下来将其输出就行了。
+2020/09/05 更新：
+新增了获取 7 天数据的接口。
+在第 3 个板块中找到的数据中也包含有 7 天的数据字典，如下图，
+
+<img src="screenshots/s12.png" width="300" />
+但这和网页上所呈现出来的数据并不太一样，因此考虑用其他方法获取 7 天中的最高/最低气温和天气状况。经过一番观察，发现这几个数据可以直接获取，例如，下图中的红框处是我想要获取的数据，
+![s13](screenshots/s13.png)
+按 Ctrl + U 或右键查看源代码进入源代码，上图的 3 个数据都可以直接搜索到，如下图所示，
+![s14](screenshots/s14.png)
+这意味着可以直接通过爬虫获取到相应的数据。这样就简单了，废话不多说，直接撸代码，
+
+```python
+url = "http://www.weather.com.cn/weather/{}.shtml".format(cip)
+response = requests.get(url, headers=headers)
+response.encoding = "utf-8"
+html = response.text
+
+# 解析数据
+soup = BeautifulSoup(html, "lxml")
+lis = soup.select("div.c7d > ul > li")
+date_list = []
+weather_list = []
+lowest_temp_list = []
+highest_temp_list = []
+for li in lis:
+    date_ = re.findall("(.*?)（.*?）", li.select("h1")[0].text)[0]
+    if len(date_) == 2:
+        date_ = "0" + date_
+        which_day = re.findall(".*?（(.*?)）", li.select("h1")[0].text)[0]
+        weather = li.select("p")[0].text
+        temp = li.select("p")[1].text.strip().replace("℃", "")
+        if "/" in temp:
+            highest_temp = temp.split("/")[0]
+            lowest_temp = temp.split("/")[1]
+        else:
+            highest_temp = temp
+            lowest_temp = temp
+        date_list.append(f"{date_}\n({which_day})")
+        weather_list.append(weather)
+        lowest_temp_list.append(int(lowest_temp))
+        highest_temp_list.append(int(highest_temp))
+```
+
+然后就是使用  pyecharts 绘图，这个不必多说。
+最后将 PyQt5 与 pyecharts 连接起来使用的是 QWebEngineView 模块来构造浏览器，然后加载 pyecharts 生成的 html 文件，从而呈现在 GUI 上。
 
 ## 还需改进的地方
 
-- [ ]  ​	没有写获取连续 7 天数据的接口
-- [ ]  ​	使用 pyinstaller 打包项目时文件太大（180 M），故没有上传
-- [ ]  ​    窗口中显示的图片白边太多、曲线没有添加数据标签、纵轴温度的刻度没有细分
+- [x] ​	没有写获取连续 7 天数据的接口
+
+- [ ] ​	~~使用 pyinstaller 打包项目时文件太大（180 M），故没有上传~~
+
+  ​	更新后打包文件还是太大了（130多M），暂时没找到能有效减小程序大小的方法，暂时放弃。
+
+- [x] ​    窗口中显示的图片白边太多、曲线没有添加数据标签、纵轴温度的刻度没有细分
