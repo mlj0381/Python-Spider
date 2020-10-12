@@ -197,15 +197,23 @@ for i in range(len(data)):
 ```
 
 至此，页面上主要的数据就获取完了，接下来将其输出就行了。
+
 2020/09/05 更新：
+
 新增了获取 7 天数据的接口。
+
 在第 3 个板块中找到的数据中也包含有 7 天的数据字典，如下图，
 
-<img src="screenshots/s12.png" width="300" />
+![s12](screenshots/s12.png)
+
 但这和网页上所呈现出来的数据并不太一样，因此考虑用其他方法获取 7 天中的最高/最低气温和天气状况。经过一番观察，发现这几个数据可以直接获取，例如，下图中的红框处是我想要获取的数据，
+
 ![s13](screenshots/s13.png)
+
 按 Ctrl + U 或右键查看源代码进入源代码，上图的 3 个数据都可以直接搜索到，如下图所示，
+
 ![s14](screenshots/s14.png)
+
 这意味着可以直接通过爬虫获取到相应的数据。这样就简单了，废话不多说，直接撸代码，
 
 ```python
@@ -234,13 +242,14 @@ for li in lis:
         else:
             highest_temp = temp
             lowest_temp = temp
-        date_list.append(f"{date_}\n({which_day})")
-        weather_list.append(weather)
-        lowest_temp_list.append(int(lowest_temp))
-        highest_temp_list.append(int(highest_temp))
+            date_list.append(f"{date_}\n({which_day})")
+            weather_list.append(weather)
+            lowest_temp_list.append(int(lowest_temp))
+            highest_temp_list.append(int(highest_temp))
 ```
 
 然后就是使用  pyecharts 绘图，这个不必多说。
+
 最后将 PyQt5 与 pyecharts 连接起来使用的是 QWebEngineView 模块来构造浏览器，然后加载 pyecharts 生成的 html 文件，从而呈现在 GUI 上。
 
 ## 还需改进的地方
